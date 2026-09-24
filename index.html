@@ -109,7 +109,6 @@ var WHATS="5511977888609";
 var msg=encodeURIComponent("Olá Edson, vi seu portfólio e quero um site.");
 ["w1","w2"].forEach(function(i){document.getElementById(i).href="https://wa.me/"+WHATS+"?text="+msg});
 var S=[
-["Tesla Motors","Landing page","https://tesla-and-motors.vercel.app/","Projeto Tesla Motors: interface interativa e futurista focada em apresentação de produto."],
 ["Reconstruct","Landing page","https://reconstruct-ten.vercel.app/","Projeto Reconstruct: site moderno com foco em alta conversão."],
 ["New York Slice","Pizzaria","https://new-york-slice.vercel.app/","Cardápio de pizzaria com pedido montado no site e finalização no WhatsApp."],
 ["Hush Sushi","Sushi","https://hush-sushi.vercel.app/","Site de sushi com visual sofisticado e pedidos direto pelo WhatsApp."],
@@ -117,8 +116,7 @@ var S=[
 ["PlayNovaTV","Recargas","https://playnovatv.vercel.app","Site de recargas NovaTV: o cliente escolhe o plano e conclui no WhatsApp."],
 ["Recarga NovaTV","Recargas","https://recarganovatv.vercel.app/","Segunda versão do site de recargas NovaTV, com outro visual e mesmo foco em conversão."],
 ["Coccinella","Pizzaria","https://coccinella-nine.vercel.app/","Pizzaria com cardápio digital e pedido anotado pelo site."],
-["Acervo OAB","Landing page","https://acervo-oab.vercel.app/","Landing page de venda para o Acervo OAB."],
-["Memory Live","Site/app de memórias","https://memory-live.vercel.app/teste","Site e app para guardar e reviver memórias."]];
+["Acervo OAB","Landing page","https://acervo-oab.vercel.app/","Landing page de venda para o Acervo OAB."]];
 var i=0,$=function(x){return document.getElementById(x)};
 function m(n){return (n+S.length)%S.length}
 function render(){
@@ -135,7 +133,7 @@ $("pv").onclick=$("bp").onclick=$("sl").onclick=function(){go(i-1)};
 $("nx").onclick=$("bn").onclick=$("sr").onclick=function(){go(i+1)};
 
 function shot(u){
-  return "https://api.microlink.io?url=" + encodeURIComponent(u) + "&screenshot=true&screenshot.fullPage=true&embed=screenshot.url";
+  return "https://api.microlink.io?url="+encodeURIComponent(u)+"&screenshot=true&screenshot.fullPage=true&embed=screenshot.url";
 }
 
 var cache={};
