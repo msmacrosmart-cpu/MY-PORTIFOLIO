@@ -65,7 +65,6 @@ footer{text-align:center;color:var(--mut);font-size:12px;padding:20px 20px 40px}
 </style></head><body>
 <nav><a class="logo" href="#top">EDSON RODRIGUES</a><ul><li><a href="#sobre">Sobre</a></li><li><a href="#sites">Sites</a></li><li><a href="#contato">Contato</a></li></ul></nav>
 <section id="top">
- <!-- Para usar imagem gerada por IA no fundo do cartão: troque --hero por url(...) -->
  <div class="card" style="--hero:none;--photo:url('assets/edson.jpg')">
   <div class="banner"></div>
   <button class="save" aria-label="Salvar"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 3h12v18l-6-4-6 4z"/></svg></button>
@@ -110,6 +109,7 @@ var WHATS="5511977888609";
 var msg=encodeURIComponent("Olá Edson, vi seu portfólio e quero um site.");
 ["w1","w2"].forEach(function(i){document.getElementById(i).href="https://wa.me/"+WHATS+"?text="+msg});
 var S=[
+["Tesla Motors","Landing page","https://tesla-and-motors.vercel.app/","Projeto Tesla Motors: interface interativa e futurista focada em apresentação de produto."],
 ["Reconstruct","Landing page","https://reconstruct-ten.vercel.app/","Projeto Reconstruct: site moderno com foco em alta conversão."],
 ["New York Slice","Pizzaria","https://new-york-slice.vercel.app/","Cardápio de pizzaria com pedido montado no site e finalização no WhatsApp."],
 ["Hush Sushi","Sushi","https://hush-sushi.vercel.app/","Site de sushi com visual sofisticado e pedidos direto pelo WhatsApp."],
@@ -134,7 +134,13 @@ S.forEach(function(_,k){var d=document.createElement("i");d.onclick=function(){g
 $("pv").onclick=$("bp").onclick=$("sl").onclick=function(){go(i-1)};
 $("nx").onclick=$("bn").onclick=$("sr").onclick=function(){go(i+1)};
 
-function shot(u){return "https://api.microlink.io?url="+encodeURIComponent(u)+"&screenshot=true&screenshot.fullPage=true&embed=screenshot.url"}
+function shot(u){
+  if(u.includes("tesla-and-motors") || u.includes("tesla")){
+    return "https://api.microlink.io?screenshot&url=" + encodeURIComponent(u);
+  }
+  return "https://api.microlink.io?url="+encodeURIComponent(u)+"&screenshot=true&screenshot.fullPage=true&embed=screenshot.url";
+}
+
 var cache={};
 function pre(k){var u=S[k][2];if(cache[u])return cache[u];var im=new Image();var o={ok:0,err:0};im.onload=function(){o.ok=1;if(S[i][2]==u)show()};im.onerror=function(){o.err=1;if(S[i][2]==u)show()};im.src=shot(u);return cache[u]=o}
 function show(){var o=cache[S[i][2]],f=$("fr");if(o.ok){f.src=shot(S[i][2]);f.className="ok";$("ph").className="ph done";$("ph").style.opacity=0}else if(o.err){f.className="err";$("ph").className="ph done";$("ph").textContent=S[i][0]+" — prévia indisponível";$("ph").style.opacity=1}}
