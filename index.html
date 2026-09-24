@@ -136,7 +136,7 @@ $("nx").onclick=$("bn").onclick=$("sr").onclick=function(){go(i+1)};
 
 function shot(u){
   if(u.includes("tesla-and-motors") || u.includes("tesla")){
-    return "https://api.microlink.io?screenshot&url=" + encodeURIComponent(u);
+    return "https://api.microlink.io?url=" + encodeURIComponent(u) + "&screenshot=true&embed=screenshot.url";
   }
   return "https://api.microlink.io?url="+encodeURIComponent(u)+"&screenshot=true&screenshot.fullPage=true&embed=screenshot.url";
 }
