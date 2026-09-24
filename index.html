@@ -45,9 +45,8 @@ h2{font-size:clamp(24px,4vw,34px);font-weight:700;margin:56px 0 6px}
 .slot{flex:0 0 auto;border-radius:22px;overflow:hidden;background:linear-gradient(160deg,var(--teal),#141517);border:1px solid var(--line);box-shadow:0 20px 50px rgba(0,0,0,.6);position:relative}
 .side{width:16%;height:260px;opacity:.55;cursor:pointer;display:grid;place-items:center;text-align:center;padding:8px;font-size:12px;font-weight:600;transition:opacity .2s}
 .side:hover{opacity:.9}
-.main{width:64%;height:500px;z-index:2;margin:0 -2%;overflow:hidden;touch-action:pan-y}
-.main img{position:absolute;top:0;left:0;width:100%;height:auto;display:block;z-index:1;transition:transform 6s ease-in-out,opacity .4s;opacity:0;will-change:transform}
-.main img.ok{opacity:1}.main img.err{display:none}
+.main{width:64%;height:500px;z-index:2;margin:0 -2%}
+.main img{position:absolute;top:0;left:0;width:100%;height:auto;display:block;z-index:1;transition:transform 5s ease-in-out,opacity .4s;opacity:0}.main img.ok{opacity:1}.main img.err{display:none}
 .main .ph{position:absolute;inset:0;display:grid;place-items:center;font-weight:700;font-size:20px;color:var(--gold);z-index:0;text-align:center;padding:10px}
 .ph{background:linear-gradient(100deg,transparent 30%,rgba(255,255,255,.08) 50%,transparent 70%) 0 0/200% 100%;animation:sh 1.4s linear infinite}.ph.done{animation:none;background:none}@keyframes sh{to{background-position:-200% 0}}
 .arrow{width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:rgba(18,19,20,.7);color:var(--gold);font-size:22px;z-index:3;transition:all .2s;flex:0 0 auto}
@@ -66,6 +65,7 @@ footer{text-align:center;color:var(--mut);font-size:12px;padding:20px 20px 40px}
 </style></head><body>
 <nav><a class="logo" href="#top">EDSON RODRIGUES</a><ul><li><a href="#sobre">Sobre</a></li><li><a href="#sites">Sites</a></li><li><a href="#contato">Contato</a></li></ul></nav>
 <section id="top">
+ <!-- Para usar imagem gerada por IA no fundo do cartão: troque --hero por url(...) -->
  <div class="card" style="--hero:none;--photo:url('assets/edson.jpg')">
   <div class="banner"></div>
   <button class="save" aria-label="Salvar"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 3h12v18l-6-4-6 4z"/></svg></button>
@@ -110,7 +110,6 @@ var WHATS="5511977888609";
 var msg=encodeURIComponent("Olá Edson, vi seu portfólio e quero um site.");
 ["w1","w2"].forEach(function(i){document.getElementById(i).href="https://wa.me/"+WHATS+"?text="+msg});
 var S=[
-["Tesla Motors","Landing page","https://tesla-and-motors.vercel.app/","Projeto Tesla Motors: interface interativa e futurista focada em apresentação de produto."],
 ["Reconstruct","Landing page","https://reconstruct-ten.vercel.app/","Projeto Reconstruct: site moderno com foco em alta conversão."],
 ["New York Slice","Pizzaria","https://new-york-slice.vercel.app/","Cardápio de pizzaria com pedido montado no site e finalização no WhatsApp."],
 ["Hush Sushi","Sushi","https://hush-sushi.vercel.app/","Site de sushi com visual sofisticado e pedidos direto pelo WhatsApp."],
@@ -140,39 +139,9 @@ var cache={};
 function pre(k){var u=S[k][2];if(cache[u])return cache[u];var im=new Image();var o={ok:0,err:0};im.onload=function(){o.ok=1;if(S[i][2]==u)show()};im.onerror=function(){o.err=1;if(S[i][2]==u)show()};im.src=shot(u);return cache[u]=o}
 function show(){var o=cache[S[i][2]],f=$("fr");if(o.ok){f.src=shot(S[i][2]);f.className="ok";$("ph").className="ph done";$("ph").style.opacity=0}else if(o.err){f.className="err";$("ph").className="ph done";$("ph").textContent=S[i][0]+" — prévia indisponível";$("ph").style.opacity=1}}
 function pv(c){var f=$("fr");f.className="";f.style.transform="";f.removeAttribute("src");$("ph").className="ph";$("ph").textContent="Carregando "+c[0]+"…";$("ph").style.opacity=1;pre(i);show();pre(m(i+1));pre(m(i-1))}
-
-var scrolling = false;
-function down(e){
- var f=$("fr"), container=$("mn");
- var d=f.offsetHeight - container.clientHeight;
- if(d > 0){
-  scrolling = !scrolling;
-  if(e.type === 'touchstart') {
-    if(scrolling) {
-      f.style.transitionDuration = Math.max(3, d/200) + "s";
-      f.style.transform = "translateY(-" + d + "px)";
-    } else {
-      up();
-    }
-  } else {
-    f.style.transitionDuration = Math.max(3, d/200) + "s";
-    f.style.transform = "translateY(-" + d + "px)";
-  }
- }
-}
-
-function up(){
- scrolling = false;
- var f=$("fr");
- f.style.transitionDuration = "1.2s";
- f.style.transform = "";
-}
-
-var mn = $("mn");
-mn.onmouseenter = down;
-mn.onmouseleave = up;
-mn.addEventListener('touchstart', down, {passive: true});
-
+function down(){var f=$("fr"),d=f.offsetHeight-$("mn").clientHeight;if(d>0){f.style.transitionDuration=Math.max(3,d/250)+"s";f.style.transform="translateY(-"+d+"px)"}}
+function up(){var f=$("fr");f.style.transitionDuration="1.2s";f.style.transform=""}
+$("mn").onmouseenter=$("mn").ontouchstart=down;$("mn").onmouseleave=up;
 S.forEach(function(_,k){pre(k)});
 render();
 </script></body></html>
