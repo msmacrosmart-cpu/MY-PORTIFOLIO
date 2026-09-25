@@ -108,7 +108,9 @@ footer{text-align:center;color:var(--mut);font-size:12px;padding:20px 20px 40px}
 var WHATS="5511977888609";
 var msg=encodeURIComponent("Olá Edson, vi seu portfólio e quero um site.");
 ["w1","w2"].forEach(function(i){document.getElementById(i).href="https://wa.me/"+WHATS+"?text="+msg});
+
 var S=[
+["Grey Black Burger","Hamburgueria","https://grey-black-burger.vercel.app","Cardápio de hamburgueria artesanal com escolha de itens e pedido no WhatsApp."],
 ["La Massa","Restaurante / Massas","https://la-massa-six.vercel.app/","Projeto La Massa: cardápio artesanal com foco em pedidos direto pelo WhatsApp."],
 ["Reconstruct","Landing page","https://reconstruct-ten.vercel.app/","Projeto Reconstruct: site moderno com foco em alta conversão."],
 ["New York Slice","Pizzaria","https://new-york-slice.vercel.app/","Cardápio de pizzaria com pedido montado no site e finalização no WhatsApp."],
@@ -118,32 +120,90 @@ var S=[
 ["Recarga NovaTV","Recargas","https://recarganovatv.vercel.app/","Segunda versão do site de recargas NovaTV, com outro visual e mesmo foco em conversão."],
 ["Coccinella","Pizzaria","https://coccinella-nine.vercel.app/","Pizzaria com cardápio digital e pedido anotado pelo site."],
 ["Acervo OAB","Landing page","https://acervo-oab.vercel.app/","Landing page de venda para o Acervo OAB."]];
+
 var i=0,$=function(x){return document.getElementById(x)};
 function m(n){return (n+S.length)%S.length}
+
 function render(){
  var c=S[i];$("nm").textContent=c[0];$("ds").textContent=c[3];$("op").href=c[2];
- pv(c)
+ pv(c);
  $("sl").textContent=S[m(i-1)][0];$("sr").textContent=S[m(i+1)][0];
  $("tp").textContent=S[m(i-1)][0];$("tn").textContent=S[m(i+1)][0];
  Array.prototype.forEach.call($("dt").children,function(d,k){d.className=k==i?"on":""});
- fit()}
+ fit();
+}
 function fit(){}
 function go(n){i=m(n);render()}
+
 S.forEach(function(_,k){var d=document.createElement("i");d.onclick=function(){go(k)};$("dt").appendChild(d)});
 $("pv").onclick=$("bp").onclick=$("sl").onclick=function(){go(i-1)};
 $("nx").onclick=$("bn").onclick=$("sr").onclick=function(){go(i+1)};
 
 function shot(u){
-  return "https://api.microlink.io?url="+encodeURIComponent(u)+"&screenshot=true&screenshot.fullPage=true&embed=screenshot.url";
+  var key = "1644b98f94ca4f3aa8876ee5842ed186";
+  return "https://api.apiflash.com/v1/urltoimage?access_key=" + key + 
+         "&url=" + encodeURIComponent(u) + 
+         "&full_page=true&width=1280&height=800&fresh=true";
 }
 
 var cache={};
-function pre(k){var u=S[k][2];if(cache[u])return cache[u];var im=new Image();var o={ok:0,err:0};im.onload=function(){o.ok=1;if(S[i][2]==u)show()};im.onerror=function(){o.err=1;if(S[i][2]==u)show()};im.src=shot(u);return cache[u]=o}
-function show(){var o=cache[S[i][2]],f=$("fr");if(o.ok){f.src=shot(S[i][2]);f.className="ok";$("ph").className="ph done";$("ph").style.opacity=0}else if(o.err){f.className="err";$("ph").className="ph done";$("ph").textContent=S[i][0]+" — prévia indisponível";$("ph").style.opacity=1}}
-function pv(c){var f=$("fr");f.className="";f.style.transform="";f.removeAttribute("src");$("ph").className="ph";$("ph").textContent="Carregando "+c[0]+"…";$("ph").style.opacity=1;pre(i);show();pre(m(i+1));pre(m(i-1))}
-function down(){var f=$("fr"),d=f.offsetHeight-$("mn").clientHeight;if(d>0){f.style.transitionDuration=Math.max(3,d/250)+"s";f.style.transform="translateY(-"+d+"px)"}}
-function up(){var f=$("fr");f.style.transitionDuration="1.2s";f.style.transform=""}
-$("mn").onmouseenter=$("mn").ontouchstart=down;$("mn").onmouseleave=up;
+function pre(k){
+  var u=S[k][2];
+  if(cache[u])return cache[u];
+  var im=new Image();
+  var o={ok:0,err:0};
+  im.onload=function(){o.ok=1;if(S[i][2]==u)show()};
+  im.onerror=function(){o.err=1;if(S[i][2]==u)show()};
+  im.src=shot(u);
+  return cache[u]=o;
+}
+
+function show(){
+  var o=cache[S[i][2]],f=$("fr");
+  if(o.ok){
+    f.src=shot(S[i][2]);
+    f.className="ok";
+    $("ph").className="ph done";
+    $("ph").style.opacity=0;
+  }else if(o.err){
+    f.className="err";
+    $("ph").className="ph done";
+    $("ph").textContent=S[i][0]+" — prévia indisponível";
+    $("ph").style.opacity=1;
+  }
+}
+
+function pv(c){
+  var f=$("fr");
+  f.className="";
+  f.style.transform="";
+  f.removeAttribute("src");
+  $("ph").className="ph";
+  $("ph").textContent="Carregando "+c[0]+"…";
+  $("ph").style.opacity=1;
+  pre(i);
+  show();
+  pre(m(i+1));
+  pre(m(i-1));
+}
+
+function down(){
+  var f=$("fr"),d=f.offsetHeight-$("mn").clientHeight;
+  if(d>0){
+    f.style.transitionDuration=Math.max(3,d/250)+"s";
+    f.style.transform="translateY(-"+d+"px)";
+  }
+}
+
+function up(){
+  var f=$("fr");
+  f.style.transitionDuration="1.2s";
+  f.style.transform="";
+}
+
+$("mn").onmouseenter=$("mn").ontouchstart=down;
+$("mn").onmouseleave=up;
+
 S.forEach(function(_,k){pre(k)});
 render();
 </script></body></html>
