@@ -121,6 +121,30 @@ var S=[
 ["Coccinella","Pizzaria","https://coccinella-nine.vercel.app/","Pizzaria com cardápio digital e pedido anotado pelo site."],
 ["Acervo OAB","Landing page","https://acervo-oab.vercel.app/","Landing page de venda para o Acervo OAB."]];
 
+function shot(u){
+  var key = "1644b98f94ca4f3aa8876ee5842ed186";
+  return "https://api.apiflash.com/v1/urltoimage?access_key=" + key + 
+         "&url=" + encodeURIComponent(u) + 
+         "&full_page=true&width=1280&height=800";
+}
+
+var cache={};
+function pre(k){
+  var u=S[k][2];
+  if(cache[u])return cache[u];
+  var im=new Image();
+  var o={ok:0,err:0};
+  im.onload=function(){o.ok=1;if(S[i][2]==u)show()};
+  im.onerror=function(){o.err=1;if(S[i][2]==u)show()};
+  im.src=shot(u);
+  return cache[u]=o;
+}
+
+// Inicia o pré-carregamento imediato de TODOS os sites da lista em segundo plano
+S.forEach(function(_, idx){
+  pre(idx);
+});
+
 var i=0,$=function(x){return document.getElementById(x)};
 function m(n){return (n+S.length)%S.length}
 
@@ -139,33 +163,14 @@ S.forEach(function(_,k){var d=document.createElement("i");d.onclick=function(){g
 $("pv").onclick=$("bp").onclick=$("sl").onclick=function(){go(i-1)};
 $("nx").onclick=$("bn").onclick=$("sr").onclick=function(){go(i+1)};
 
-function shot(u){
-  var key = "1644b98f94ca4f3aa8876ee5842ed186";
-  return "https://api.apiflash.com/v1/urltoimage?access_key=" + key + 
-         "&url=" + encodeURIComponent(u) + 
-         "&full_page=true&width=1280&height=800&fresh=true";
-}
-
-var cache={};
-function pre(k){
-  var u=S[k][2];
-  if(cache[u])return cache[u];
-  var im=new Image();
-  var o={ok:0,err:0};
-  im.onload=function(){o.ok=1;if(S[i][2]==u)show()};
-  im.onerror=function(){o.err=1;if(S[i][2]==u)show()};
-  im.src=shot(u);
-  return cache[u]=o;
-}
-
 function show(){
   var o=cache[S[i][2]],f=$("fr");
-  if(o.ok){
+  if(o && o.ok){
     f.src=shot(S[i][2]);
     f.className="ok";
     $("ph").className="ph done";
     $("ph").style.opacity=0;
-  }else if(o.err){
+  }else if(o && o.err){
     f.className="err";
     $("ph").className="ph done";
     $("ph").textContent=S[i][0]+" — prévia indisponível";
@@ -183,8 +188,6 @@ function pv(c){
   $("ph").style.opacity=1;
   pre(i);
   show();
-  pre(m(i+1));
-  pre(m(i-1));
 }
 
 function down(){
@@ -204,6 +207,5 @@ function up(){
 $("mn").onmouseenter=$("mn").ontouchstart=down;
 $("mn").onmouseleave=up;
 
-S.forEach(function(_,k){pre(k)});
 render();
 </script></body></html>
