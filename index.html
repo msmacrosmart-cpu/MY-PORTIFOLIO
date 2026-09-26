@@ -140,7 +140,7 @@ function shot(u){
   var key = "1644b98f94ca4f3aa8876ee5842ed186";
   return "https://api.apiflash.com/v1/urltoimage?access_key=" + key + 
          "&url=" + encodeURIComponent(u) + 
-         "&full_page=true&width=1280&height=800&fresh=true&delay=3&scroll_page=true";
+         "&full_page=true&width=1280&height=800&delay=2&scroll_page=true";
 }
 
 var cache={};
@@ -162,6 +162,7 @@ function pre(k){
   return cache[u]=o;
 }
 
+// Precarrega todas as imagens no background em lote rápido
 S.forEach(function(_, idx){
   pre(idx);
 });
@@ -195,8 +196,8 @@ function show(){
   f.onerror = function() {
     f.className = "err";
     $("ph").className = "ph done";
-    $("ph").textContent = S[i][0] + " — prévia indisponível";
     $("ph").style.opacity = 1;
+    $("ph").textContent = S[i][0] + " — prévia indisponível";
   };
 
   f.src = srcUrl;
@@ -211,6 +212,11 @@ function pv(c){
   $("ph").textContent="Carregando "+c[0]+"…";
   $("ph").style.opacity=1;
   pre(i);
+  
+  // Antecipa e força precarregamento do item seguinte e anterior para ser imediato ao clicar
+  pre(m(i + 1));
+  pre(m(i - 1));
+
   show();
 }
 
